@@ -195,8 +195,8 @@ footer a:hover {
 <div class="container mt-4">
     <div class="card text-white bg-danger">
         <div class="card-body">
-            <h5 class="card-title">Cyberbullying Detected 🚨</h5>
-            <p class="card-text">This message contains harmful content and has been flagged.</p>
+            <h5 id="alert-box" class="card-title">Cyberbullying Detected 🚨</h5>
+            <p id="alert-box-text" class="card-text">This message contains harmful content and has been flagged.</p>
         </div>
     </div>
 </div>
@@ -360,6 +360,54 @@ footer a:hover {
         });
     });
 </script>
+<script>
+    document.querySelector("form").addEventListener("submit", async (event) => {
+        event.preventDefault();
+    
+        const userInput = document.getElementById("userInput").value;
+        const alertBox = document.getElementById("alert-box");
+        const alertBoxText = document.getElementById("alert-box-text");
+    
+        if (!userInput.trim()) {
+            alert("Please enter some text.");
+            return;
+        }
+    
+        const response = await fetch("https://cyberbullyingbackend-production.up.railway.app/analyze", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ text: userInput })
+            // body: JSON.stringify({ text: "I hope you are fine" })
+        });
+    
+        if (response.ok) {
+            const data = await response.json();
+
+        // Display Cyberbullying Detected or Not Detected
+        if (data.sentiment.includes("Negative")) {
+            alertBox.textContent = "🚨 Cyberbullying Detected";
+            alertBox.style.backgroundColor = "#FF3B30";  // Red for detected
+        } else {
+            alertBox.textContent = "✅ No Cyberbullying Detected";
+            alertBox.style.backgroundColor = "#00CC77";  // Green for safe
+        }
+
+        // Display detailed sentiment data
+        alertBoxText.innerHTML = `
+            <strong>Sentiment:</strong> ${data.sentiment}<br>
+            <strong>Score:</strong> ${data.score}
+        `;
+    } else {
+        alertBox.textContent = "❌ Error analyzing sentiment";
+        alertBox.style.backgroundColor = "#FFAA00";  // Orange for error
+        alertBoxText.textContent = "";
+    }
+        }
+);
+    </script>
+    
 
 </body>
 </html>
