@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fake news</title>
+    <!-- link for css -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- script for js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+<style>
+
+    body{
+        padding-top: 80px;
+        font-family: sans-serif;
+        background-color:#ffffff;
+        color:#E0E0E0;
+    }
+
+    #background-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: -1; /* Keeps it behind other content */
+    opacity: 1; /* Adjust for better readability */
+    filter: brightness(1.2) contrast(1.1); 
+}
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+    z-index: -1;
+}
+
+
+       /* navbar */
+       .navbar {
+    background-color: #1B1B1B; /* Dark Charcoal */
+    padding: 15px;
+}
+.navbar-brand {
+    color: #00FF95 !important; /* Neon Green */
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+.navbar-nav .nav-link {
+    color: #E0E0E0 !important; /* Light Gray */
+    transition: color 0.3s ease-in-out;
+}
+.navbar-nav .nav-link:hover {
+    color: #00FF95 !important; /* Neon Green on Hover */
+}
+.btn-danger {
+    background-color: #FF3B30 !important; /* Cyber Red */
+    border: none;
+}
+.btn-danger:hover {
+    background-color: #D32F2F !important; /* Darker Red */
+}
+.btn-neon {
+    background-color: #00FF95;
+    border: none;
+    color: #000;
+}
+.btn:hover{
+    background-color: #00CC77;
+}
+
+/* Form Styling */
+
+.form-group {
+    margin-bottom: 15px;
+}
+.form-control {
+    border-radius: 10px;
+    border: 2px solid #00CC77;
+    padding: 10px;
+    background-color: #1E1E1E; /* Dark Input */
+    color: #FFFFFF;
+}
+.form-control::placeholder {
+    color: #BBBBBB;
+}
+.form-control:focus {
+    border-color: #00FF95;
+    box-shadow: 0 0 10px rgba(0, 255, 149, 0.6);
+}
+
+/* File Upload Styling */
+input[type="file"] {
+    padding: 10px;
+    background-color: #1E1E1E;
+    border-radius: 10px;
+    color: #FFFFFF;
+}
+
+/* Submit Button */
+.btn-primary {
+    background-color:#00CC77;
+    border: none;
+    transition: 0.3s ease-in-out;
+}
+.btn-primary:hover {
+    background-color: #00CC77;
+    box-shadow: 0 0 10px rgba(0, 91, 179, 0.5);
+}
+
+/* Fake News Result Card */
+.card.bg-danger {
+    background: linear-gradient(to right, #FF3B30, #D32F2F);
+    border-radius: 15px;
+}
+.card-title {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+.card-text {
+    font-size: 1.2rem;
+}
+
+footer a:hover {
+    color: #00FF95 !important; /* Neon Green */
+    text-decoration: underline;
+}
+
+</style>
+
+</head>
+<body>
+
+    <!-- Video Background -->
+<video autoplay muted loop id="background-video">
+    <source src="https://www.shutterstock.com/shutterstock/videos/3717137973/preview/stock-footage-animation-text-of-fake-news-pop-up-neon-splash-screen-writing-of-fake-news-screen-for-your.webm" type="video/webm">
+    Your browser does not support the video tag.
+</video>
+<!-- Dark Overlay for Better Visibility -->
+<div class="overlay"></div>
+   <!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand fw-neon" href="#">🔍 SENTINEL AI</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link text-light" href="index.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link text-light" href="fake.html">Fake News Detector</a></li>
+                <li class="nav-item"><a class="nav-link text-light" href="phising.html">Phishing Detector</a></li>
+                <li class="nav-item"><a class="nav-link text-light" href="cyberbully.html">Cyberbullying Detector</a></li>
+                <li class="nav-item"><a class="nav-link text-light" href="abouts.html">About</a></li>
+                <li class="nav-item"><a class="nav-link text-light" href="Contact.html">ContactUs</a></li>
+                <li class="nav-item">
+                    <button class="btn btn-danger mx-2" id="login-btn">Login</button>
+                </li>
+                <li class="nav-item">
+                    <button class="btn btn-neon" id="logout-btn" style="display: none;">Logout</button>
+                </li>
+                <!-- <li class="nav-item"><button class="btn btn-neon ms-3" id="themeToggle">🌙</button></li> -->
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<!-- News Input Form -->
+<div class="container mt-3 pt-5">
+    <div class="card p-3 shadow-lg" style="border-radius: 15px; background-color: #1E1E1E; color: #FFFFFF;">
+        <h3 class="text-center">Enter News Content or URL</h3>
+        <form>
+            <div class="form-group">
+                <label for="newsInput" class="form-label"></label>
+                <textarea id="newsInput" class="form-control" rows="4" placeholder="Paste news content or URL here..."></textarea>
+            </div>
+            <div class="form-group mt-3">
+                <input id="imageUrl" type="file" class="form-control" accept="image/">
+            </div>
+            <button type="submit" class="btn btn-success btn-block mt-3">Check News</button>
+        </form>
+    </div>
+</div>
+
+
+<!-- Fake News Result -->
+<div class="container mt-4">
+    <div class="card text-white bg-danger">
+        <div class="card-body">
+            <h5 class="card-title">Fake News Detected ❌</h5>
+            <p class="card-text">This news article has been flagged as misleading based on AI analysis.</p>
+        </div>
+    </div>
+</div>
+ <!-- Fake News Score Progress Bar -->
+ <div class="container mt-4">
+    <h5>Fake News Score: 75%</h5>
+    <div class="progress">
+        <div class="progress-bar bg-danger" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+</div>
+<!-- Verified News Table -->
+<div class="container mt-4">
+    <h3>Verified News List</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>News Title</th>
+                <th>Source</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Breaking: AI Takes Over</td>
+                <td>example.com</td>
+                <td><span class="badge bg-danger">Fake</span></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>NASA Confirms Water on Mars</td>
+                <td>nasa.gov</td>
+                <td><span class="badge bg-success">Real</span></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<!-- Footer -->
+<footer class="bg-danger text-light mt-4 pt-4">
+    <div class="container">
+        <div class="row">
+            <!-- About Section -->
+            <div class="col-md-4">
+                <h5 class="fw-bold">🔍 SENTINEL AI</h5>
+                <p>Sentinel AI is an advanced cybersecurity tool that helps detect and prevent online threats like fake news, phishing, and cyberbullying.</p>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="col-md-4">
+                <h5 class="fw-bold">Quick Links</h5>
+                <ul class="list-unstyled">
+                    <li><a href="index.html" class="text-light text-decoration-none">Home</a></li>
+                    <li><a href="fake.html" class="text-light text-decoration-none">Fake News Detector</a></li>
+                    <li><a href="phising.html" class="text-light text-decoration-none">Phishing Detector</a></li>
+                    <li><a href="cyberbully.html" class="text-light text-decoration-none">Cyberbullying Detector</a></li>
+                    <li><a href="about.html" class="text-light text-decoration-none">About Us</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact Section -->
+            <div class="col-md-4">
+                <h5 class="fw-bold">Contact Us</h5>
+                <p><i class="bi bi-envelope"></i> support@sentinelaitech.com</p>
+                <p><i class="bi bi-telephone"></i> +1 (123) 456-7890</p>
+                <p><i class="bi bi-geo-alt"></i> Vizag, India</p>
+                <!-- Social Media Links -->
+                <div>
+                    <a href="#" class="text-light me-2"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="text-light me-2"><i class="bi bi-twitter"></i></a>
+                    <a href="#" class="text-light me-2"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="text-light"><i class="bi bi-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Copyright Section -->
+        <div class="text-center py-3 mt-3 border-top">
+            <p class="mb-0">© 2025 Sentinel AI. All Rights Reserved.</p>
+        </div>
+    </div>
+</footer>
+<!-- Clerk Widget -->
+<div id="clerk-widget" class="clerk-widget" style="display: none;"></div>
+
+<!-- Clerk Script -->
+
+<script
+  async
+  crossorigin="anonymous"
+  data-clerk-publishable-key="pk_test_dG9wcy1tYWNrZXJlbC0xMy5jbGVyay5hY2NvdW50cy5kZXYk"
+  src="https://tops-mackerel-13.clerk.accounts.dev/npm/@clerk/clerk-js@5/dist/clerk.browser.js"
+  type="text/javascript">
+</script>
+<script>
+    window.addEventListener("load", async () => {
+        const { Clerk } = window;
+
+        // Initialize Clerk
+        await Clerk.load();
+
+        // Elements
+        const loginBtn = document.getElementById("login-btn");
+        const logoutBtn = document.getElementById("logout-btn");
+        const clerkWidget = document.getElementById("clerk-widget");
+
+        // Handle login click
+        loginBtn.addEventListener("click", () => {
+            clerkWidget.style.display = "block";
+            Clerk.openSignIn({
+                afterSignInUrl: "/index.html",  // Redirect after sign-in
+                afterSignUpUrl: "/index.html"   // Redirect after sign-up
+            });
+        });
+
+        // Handle logout click
+        logoutBtn.addEventListener("click", async () => {
+            await Clerk.signOut();
+            alert("You have logged out.");
+            window.location.reload();
+        });
+
+        // Check auth status
+        Clerk.addListener(async () => {
+            const user = Clerk.user;
+
+            if (user) {
+                loginBtn.style.display = "none";
+                logoutBtn.style.display = "block";
+                clerkWidget.style.display = "none";
+                console.log("User signed in:", user);
+            } else {
+                loginBtn.style.display = "block";
+                logoutBtn.style.display = "none";
+            }
+        });
+    });
+</script>
+</body>
+</html>
