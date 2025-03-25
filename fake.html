@@ -91,7 +91,8 @@
 }
 .form-control:focus {
     border-color: #00FF95;
-    box-shadow: 0 0 10px rgba(0, 255, 149, 0.6);
+    /* box-shadow: 0 0 10px rgba(0, 255, 149, 0.6); */
+    box-shadow: 0 0 10px #1B1B1B;
 }
 
 /* File Upload Styling */
@@ -183,7 +184,7 @@ footer a:hover {
             <div class="form-group mt-3">
                 <input id="imageUrl" type="file" class="form-control" accept="image/">
             </div>
-            <button type="submit" class="btn btn-success btn-block mt-3">Check News</button>
+            <button id="fake-news-form" type="submit" class="btn btn-success btn-block mt-3">Check News</button>
         </form>
     </div>
 </div>
@@ -335,7 +336,7 @@ footer a:hover {
 </script>
 
 <script>
-    document.getElementById("fake-news-form").addEventListener("submit", async (event) => {
+    document.getElementById("fake-news-form").addEventListener("click", async (event) => {
         event.preventDefault();
 
         const newsInput = document.getElementById("newsInput").value.trim();
@@ -350,7 +351,7 @@ footer a:hover {
             alert("Please enter some text.");
             return;
         }
-
+        
         try {
             const response = await fetch("https://newsfakedetection-production.up.railway.app/fake-news", {  // Replace with your Railway URL
                 method: "POST",
@@ -359,27 +360,30 @@ footer a:hover {
                 },
                 body: JSON.stringify({ text: newsInput })
             });
+            
 
             if (response.ok) {
                 const data = await response.json();
-
+                // console.log(data);
                 // Display the result in the result-box and result-box-text
                 if (data.result.toLowerCase().includes("fake")) {
                     resultBox.textContent = "❌ Fake News Detected";
-                    resultBox.className = "card-title text-danger";
+                    resultBox.className = "card-title";
                     resultBoxText.textContent = data.result;
                 } else {
-                    resultBox.textContent = "✅ Real News";
-                    resultBox.className = "card-title text-success";
-                    resultBoxText.textContent = data.result;
-                }
+                        resultBox.textContent = "✅ Real News";
+                        resultBox.className = "card-title bg-success";
+                        resultBoxText.textContent = data.result;
+                    }
             } else {
+                console.log('err');
                 resultBox.textContent = "❌ Error";
                 resultBox.className = "card-title text-warning";
                 resultBoxText.textContent = "Failed to fetch data from the server.";
             }
-
+            
         } catch (error) {
+            console.log('erroro');
             resultBox.textContent = "❌ Network Error";
             resultBox.className = "card-title text-warning";
             resultBoxText.textContent = "Please check your internet connection or server.";
