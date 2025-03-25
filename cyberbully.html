@@ -141,6 +141,33 @@ footer a:hover {
 }
 
             </style>
+
+<script>
+     document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("submitbtn").addEventListener("click", function () {
+                let userInput = document.getElementById("userInput").value.trim();
+                if (userInput === "") {
+                    alert("⚠️ Please enter a message before submitting.");
+                    return;
+                }
+                let tableBody = document.querySelector("table tbody");
+                let newRow = document.createElement("tr");
+                let currentDate = new Date().toISOString().split("T")[0];
+                newRow.innerHTML = `
+                    <td>${tableBody.rows.length + 1}</td>
+                    <td>${userInput}</td>
+                    <td><span class="badge bg-warning">Pending Review</span></td>
+                    <td>${currentDate}</td>`;
+                tableBody.appendChild(newRow);
+                document.getElementById("userInput").value = "";
+                alert("✅ Your message has been submitted successfully!");
+            });
+        
+            document.getElementById("btn-danger").addEventListener("click", function () {
+                alert("🚨 Your report has been submitted for review.");
+            });
+        });
+</script>
 </head>
 <body>
 
